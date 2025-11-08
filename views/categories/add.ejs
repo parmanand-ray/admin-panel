@@ -1,0 +1,175 @@
+<h3 class="text-center mb-4">Add New Category</h3>
+
+<form action="/categories/add" method="POST" enctype="multipart/form-data">
+  <!-- BASIC INFO -->
+  <div class="section-title">Basic Info</div>
+
+  <div class="row">
+    <div class="col-md-6 mb-3">
+      <label class="form-label">Category Name *</label>
+      <input
+        id="catName"
+        onchange="geturl('catName','slug')"
+        onkeyup="geturl('catName','slug')"
+        type="text"
+        class="form-control"
+        name="catName"
+        required
+        placeholder="Enter category name"
+      />
+    </div>
+
+    <div class="col-md-6 mb-3">
+      <label class="form-label">Display Name</label>
+      <input
+        type="text"
+        class="form-control"
+        name="displayName"
+        placeholder="Enter display name"
+      />
+    </div>  
+  </div>
+
+  <div class="col-md-6 mb-3">
+    <label class="form-label">Category url *</label>
+    <input
+      type="text"
+      class="form-control"
+      name="slug"
+      id="slug"
+      value=""
+      required
+    />
+  </div>
+
+
+   <!-- META TAGS -->
+  <div class="section-title">SEO Meta Information</div>
+
+  <div class="mb-3">
+    <label class="form-label">Meta Title</label>
+    <input
+      type="text"
+      class="form-control"
+      name="pageTitle"
+      placeholder="Enter meta title"
+    />
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Meta Keywords</label>
+    <input
+      type="text"
+      class="form-control"
+      name="pageKeywords"
+      placeholder="Enter comma-separated keywords"
+    />
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Meta Description</label>
+    <textarea
+      class="form-control"
+      name="pageDescription"
+      rows="3"
+      placeholder="Enter meta description"
+    ></textarea>
+  </div>
+  <div class="row">
+    <div class="col-md-4 mb-3">
+      <label class="form-label">Keyword 1</label>
+      <input
+        type="text"
+        class="form-control"
+        name="keyone"
+      />
+    </div>
+    <div class="col-md-4 mb-3">
+      <label class="form-label">Keyword 2</label>
+      <input
+        type="text"
+        class="form-control"
+        name="keytwo"
+        
+      />
+    </div>
+    <div class="col-md-4 mb-3">
+      <label class="form-label">Keyword 3</label>
+      <input
+        type="text"
+        class="form-control"
+        name="keythree"
+        
+      />
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Short Description</label>
+    <textarea
+      class="form-control"
+      name="catDesc"
+      rows="3"
+      placeholder="Enter category description"
+    ></textarea>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Description 1</label>
+    <textarea
+      class="form-control"
+      name="catDesc1"
+      rows="3"
+      placeholder="Enter category description"
+    ></textarea>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Description 2</label>
+    <textarea
+      class="form-control"
+      name="catDesc2"
+      rows="3"
+      placeholder="Enter category description"
+    ></textarea>
+  </div>
+
+  <!-- IMAGES -->
+  <div class="section-title">Images</div>
+
+  <div class="row">
+    <div class="col-md-4 mb-3">
+      <label class="form-label">Category Image</label>
+      <input
+        type="file"
+        class="form-control"
+        name="catImage"
+        accept="image/*"
+      />
+    </div>
+    <div class="col-md-4 mb-3">
+      <label class="form-label">Category Home Image</label>
+      <input
+        type="file"
+        class="form-control"
+        name="cat_home_image"
+        accept="image/*"
+      />
+    </div>
+    <div class="col-md-4 mb-3">
+      <label class="form-label">Category Banner </label>
+      <input
+        type="file"
+        class="form-control"
+        name="catBanner"
+        accept="image/*"
+      />
+    </div>
+  </div>
+
+
+  <div class="d-flex justify-content-between mt-4">
+    <a href="/categories" class="btn btn-outline-secondary">← Back</a>
+    <button type="submit" class="btn btn-primary px-4">Save Category</button>
+  </div>
+</form>

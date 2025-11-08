@@ -1,0 +1,104 @@
+<h3 class="text-center mb-4">Edit Category</h3>
+<a href="/categories" class="btn btn-outline-secondary mb-3">← Back</a>
+<form action="/categories/edit/<%= category._id %>?_method=PUT" method="POST" enctype="multipart/form-data" class="mb-4">
+
+  <!-- BASIC INFO -->
+  <div class="border-bottom pb-2 mb-3">
+    <h5 class="text-primary fw-bold">Basic Info</h5>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6 mb-3">
+      <label class="form-label">Category Name *</label>
+      <input type="text" id="catName"
+        onchange="geturl('catName','slug')"
+        onkeyup="geturl('catName','slug')" class="form-control" name="catName" value="<%= category.catName %>" required>
+    </div>
+
+    <div class="col-md-6 mb-3">
+      <label class="form-label">Display Name</label>
+      <input type="text" class="form-control" name="displayName" value="<%= category.displayName %>">
+    </div>
+  </div>
+
+  <div class="col-md-6 mb-3">
+      <label class="form-label">Category url *</label>
+      <input type="text" class="form-control" name="slug" 
+    id="slug"  value="<%= category.slug %>" required>
+    </div>
+  <!-- META TAGS -->
+  <div class="border-bottom pb-2 mb-3">
+    <h5 class="text-primary fw-bold">SEO Meta Information</h5>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Page Title</label>
+    <input type="text" class="form-control" name="pageTitle" value="<%= category.meta?.pageTitle || '' %>">
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Meta Keywords</label>
+    <input type="text" class="form-control" name="pageKeywords" value="<%= category.meta?.pageKeywords || '' %>">
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Meta Description</label>
+    <textarea class="form-control" name="pageDescription" rows="3"><%= category.meta?.pageDescription || '' %></textarea>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Description</label>
+    <textarea class="form-control" name="catDesc" rows="3"><%= category.description.catDesc %></textarea>
+  </div>
+
+
+
+  <div class="mb-3">
+    <label class="form-label">Description 1</label>
+    <textarea
+      class="form-control"
+      name="catDesc1"
+      rows="3"
+      placeholder="Enter category description"
+    ><%= category.description.catDesc1 %></textarea>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Description 2</label>
+    <textarea
+      class="form-control"
+      name="catDesc2"
+      rows="3"
+      placeholder="Enter category description"
+    ><%= category.description.catDesc2 %></textarea>
+  </div>
+
+ <!-- IMAGES -->
+  <div class="border-bottom pb-2 mb-3">
+    <h5 class="text-primary fw-bold">Images</h5>
+  </div>
+
+  <div class="row">
+    <div class="col-md-4 mb-3">
+      <label class="form-label">Category Image</label>
+      <input type="file" class="form-control" name="catImage" accept="image/*">
+      <img src="<%= category.images.catImage %>" alt="" height="100px" width="100px">
+    </div>
+    <div class="col-md-4 mb-3">
+      <label class="form-label">Home Image</label>
+      <input type="file" class="form-control" name="cat_home_image" accept="image/*">
+      <img src="<%= category.images.cat_home_image %>" alt="" height="100px" width="100px">
+    </div>
+    <div class="col-md-4 mb-3">
+      <label class="form-label">Banner Image</label>
+      <input type="file" class="form-control" name="catBanner" accept="image/*">
+      <img src="<%= category.images.catBanner %>" alt="" height="100px" width="100px">
+    </div>
+  </div>
+
+
+  <div class="d-flex justify-content-between mt-4">
+    <a href="/categories" class="btn btn-outline-secondary">← Back</a>
+    <button type="submit" class="btn btn-primary px-4">Update Category</button>
+  </div>
+</form>

@@ -1,0 +1,10 @@
+# .gitignore
+node_modules/
+.env
+.DS_Store
+dist/
+build/
+public/uploads/
+npm-debug.log
+yarn-error.log
+.vscode/

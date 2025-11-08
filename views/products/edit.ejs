@@ -1,0 +1,118 @@
+<div class="container mt-4">
+  <h3 class="mb-4 text-center">Edit Product</h3>
+
+  <form action="/products/edit/<%= product._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
+    <div class="card p-4 shadow-sm">
+
+      <!-- CATEGORY MULTI SELECT -->
+      <div class="mb-3">
+        <label class="form-label fw-bold fs-5">Select Categories *</label>
+
+        <div class="category-checkbox-group">
+          <%
+            const parentCategories = categories.filter(c => !c.parentId);
+            const subCategories = categories.filter(c => c.parentId);
+          %>
+
+          <% parentCategories.forEach(parent => { %>
+            <div class="mb-3 border-bottom pb-2">
+              <div class="form-check">
+                <input 
+                  class="form-check-input" 
+                  type="checkbox" 
+                  name="product_cat" 
+                  value="<%= parent._id %>" 
+                  id="cat_<%= parent._id %>"
+                  <%= product.product_cat.includes(parent._id.toString()) ? "checked" : "" %>>
+                <label class="form-check-label fw-semibold text-primary" for="cat_<%= parent._id %>">
+                  <%= parent.catName %>
+                </label>
+              </div>
+
+              <div class="ms-4 mt-2">
+                <% subCategories
+                  .filter(sub => String(sub.parentId) === String(parent._id))
+                  .forEach(sub => { %>
+                    <div class="form-check form-check-inline">
+                      <input 
+                        class="form-check-input" 
+                        type="checkbox" 
+                        name="product_cat" 
+                        value="<%= sub._id %>" 
+                        id="cat_<%= sub._id %>"
+                        <%= product.product_cat.includes(sub._id.toString()) ? "checked" : "" %>>
+                      <label class="form-check-label" for="cat_<%= sub._id %>">
+                        <%= sub.catName %>
+                      </label>
+                    </div>
+                <% }) %>
+              </div>
+            </div>
+          <% }) %>
+        </div>
+      </div>
+
+      <!-- PRODUCT INFO -->
+      <div class="section-title mb-3"><strong>Basic Info</strong></div>
+
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Product Title *</label>
+          <input type="text" class="form-control" name="product_title" value="<%= product.product_title %>" required>
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Product Code</label>
+          <input type="text" class="form-control" name="product_code" value="<%= product.product_code %>">
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Product Description</label>
+        <textarea class="form-control" name="product_desc" rows="3"><%= product.product_desc %></textarea>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Product Specification</label>
+        <textarea class="form-control" name="product_specfi" rows="4"><%= product.product_specfi %></textarea>
+      </div>
+
+      <!-- EXISTING IMAGES -->
+      <% if (product.images && product.images.length > 0) { %>
+        <div class="mb-3">
+          <label class="form-label">Existing Images</label>
+          <div class="d-flex flex-wrap gap-3">
+            <% product.images.forEach(img => { %>
+              <div class="border p-2 rounded">
+                <img src="<%= img %>" alt="Product Image" width="100" height="100" class="rounded">
+              </div>
+            <% }) %>
+          </div>
+        </div>
+      <% } %>
+
+      <!-- UPLOAD NEW IMAGES -->
+      <div class="mb-3">
+        <label class="form-label">Upload New Images</label>
+        <input type="file" class="form-control" name="productImages" multiple accept="image/*">
+        <small class="text-muted">You can select multiple new images (optional).</small>
+      </div>
+
+      <!-- STATUS -->
+      <!-- <div class="row">
+        <div class="col-md-4 mb-3">
+          <label class="form-label">Status</label>
+          <select name="product_status" class="form-select">
+            <option value="Y" <%= product.product_status === 'Y' ? 'selected' : '' %>>Active</option>
+            <option value="N" <%= product.product_status === 'N' ? 'selected' : '' %>>Inactive</option>
+          </select>
+        </div>
+      </div> -->
+
+      <div class="d-flex justify-content-between mt-4">
+        <a href="/products" class="btn btn-outline-secondary">← Back</a>
+        <button type="submit" class="btn btn-primary px-4">Update Product</button>
+      </div>
+    </div>
+  </form>
+</div>

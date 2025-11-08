@@ -1,0 +1,90 @@
+<div class="container-fluid mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h3 class="fw-bold text-primary">Manage Categories</h3>
+    <a href="/categories/add" class="btn btn-primary">
+      <i class="fa fa-plus me-1"></i> Add New Category
+    </a>
+  </div>
+
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-hover align-middle">
+          <thead class="table-light">
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Category Name</th>
+              <th scope="col">Display Name</th>
+              <th scope="col">Header Menu</th>
+              <th scope="col">Image</th>
+              <th scope="col">Order</th>
+              <th scope="col">Status</th>
+              <th scope="col" class="text-end">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if (categories.length === 0) { %>
+              <tr>
+                <td colspan="8" class="text-center text-muted py-4">
+                  No categories found.
+                </td>
+              </tr>
+            <% } else { %>
+              <% categories.forEach((cat, i) => { %>
+                <tr>
+                  <td><%= i + 1 %></td>
+
+                  <td>
+                    <strong><%= cat.catName %></strong><br>
+                    <small class="text-muted"><%= cat.slug %></small>
+                  </td>
+
+                  <td><%= cat.displayName || '-' %></td>
+
+                  <td>
+                    <% if (cat.header_menu) { %>
+                      <span class="badge bg-info text-dark px-3">Yes</span>
+                    <% } else { %>
+                      <span class="badge bg-secondary px-3">No</span>
+                    <% } %>
+                  </td>
+
+                  <td>
+                    <% if (cat.images && cat.images.catImage) { %>
+                      <img src="<%= cat.images.catImage %>" alt="<%= cat.catName %>" class="img-thumbnail" style="width:60px; height:60px; object-fit:cover;">
+                    <% } else { %>
+                      <span class="text-muted">—</span>
+                    <% } %>
+                  </td>
+
+                  <td>
+                    <input type="number" class="form-control form-control-sm text-center" value="<%= cat.order || 0 %>" readonly style="width: 70px;">
+                  </td>
+
+                  <td>
+                    <% if (cat.status === 'Y') { %>
+                      <span class="badge bg-success px-3">Active</span>
+                    <% } else { %>
+                      <span class="badge bg-danger px-3">Inactive</span>
+                    <% } %>
+                  </td>
+
+                  <td class="text-end">
+                    <a href="/categories/edit/<%= cat._id %>" class="btn btn-sm btn-outline-primary me-1">
+                      <i class="fa fa-pen"></i>
+                    </a>
+                    <form action="/categories/delete/<%= cat._id %>?_method=DELETE" method="POST" style="display:inline;">
+                      <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Delete this category?')">
+                        <i class="fa fa-trash"></i>
+                      </button>
+                    </form>
+                  </td>
+                </tr>
+              <% }) %>
+            <% } %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
