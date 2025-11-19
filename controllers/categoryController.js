@@ -3,17 +3,40 @@ import slugify from "slugify";
 import path from "path";
 import fs from "fs";
 export const listCategories = async (req, res) => {
-  const categories = await Category.find().sort({ createdAt: -1 });
-  res.render("categories/list", { categories });
+  let { id } = req.params;
+
+  // if no id passed → root level
+  if (!id) {
+    id = null;
+  }
+
+  // if id is literally "0" (string) → treat as root
+  if (id === "0") {
+    id = null;
+  }
+
+  const categories = await Category.find({ parentId: id })
+    .sort({ createdAt: -1 })
+    .lean();
+
+  if (id === null) {
+    id = 0;
+  }
+
+  res.render("categories/list", { categories, id });
 };
 
 export const addCategoryForm = (req, res) => {
-  res.render("categories/add");
+  let id = 0;
+  if (req.params.id) {
+    id = req.params.id;
+  }
+  res.render("categories/add", { id });
 };
 
 export const createCategory = async (req, res) => {
   try {
-    const {
+    let {
       catName,
       displayName,
       slug,
@@ -29,34 +52,32 @@ export const createCategory = async (req, res) => {
       catDesc2,
     } = req.body;
 
-    // Handle uploaded images (via multer)
-    let images = {};
-    if (req.files) {
-      if (req.files.catImage && req.files.catImage[0]) {
-        images.catImage = `/uploads/category/${req.files.catImage[0].filename}`;
-      }
-      if (req.files.cat_home_image && req.files.cat_home_image[0]) {
-        images.cat_home_image = `/uploads/category/${req.files.cat_home_image[0].filename}`;
-      }
-      if (req.files.catBanner && req.files.catBanner[0]) {
-        images.catBanner = `/uploads/category/${req.files.catBanner[0].filename}`;
-      }
+    // Only convert "0" (root) → null
+    if (parentId === "0") {
+      parentId = null;
     }
-    const totalDocs = await Category.countDocuments();
-    const nextOrder = totalDocs + 1;
 
-    // Construct category document
+    // Images
+    let images = {};
+    if (req.files?.catImage?.[0]) {
+      images.catImage = `/uploads/category/${req.files.catImage[0].filename}`;
+    }
+    if (req.files?.cat_home_image?.[0]) {
+      images.cat_home_image = `/uploads/category/${req.files.cat_home_image[0].filename}`;
+    }
+    if (req.files?.catBanner?.[0]) {
+      images.catBanner = `/uploads/category/${req.files.catBanner[0].filename}`;
+    }
+
+    const nextOrder = (await Category.countDocuments()) + 1;
+
     const categoryData = {
       catName,
       displayName,
-      description: {
-        catDesc,
-        catDesc1,
-        catDesc2,
-      },
       slug,
-      parentId: parentId || null,
+      parentId, // correct value now
       order: nextOrder,
+      description: { catDesc, catDesc1, catDesc2 },
       images,
       meta: {
         pageTitle,
@@ -68,13 +89,12 @@ export const createCategory = async (req, res) => {
       },
     };
 
-    // Save to MongoDB
     await Category.create(categoryData);
 
-    console.log("✅ Category created successfully:", catName);
-    res.redirect("/categories");
+    // Redirect correctly
+    res.redirect(`/categories/${parentId === null ? 0 : parentId}`);
   } catch (error) {
-    console.error("❌ Error creating category:", error);
+    console.error(error);
     res.status(500).send("Server Error");
   }
 };

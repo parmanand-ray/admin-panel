@@ -9,7 +9,6 @@ import {
   editCategoryForm,
   updateCategory,
   deleteCategory,
-  listSubCategories,
 } from "../controllers/categoryController.js";
 
 const router = express.Router();
@@ -36,7 +35,7 @@ const upload = multer({ storage });
 // ✅ Routes
 
 // Render Add Category Form
-router.get("/add", addCategoryForm);
+router.get("/add/:id", addCategoryForm);
 
 // Create New Category (with file uploads)
 router.post(
@@ -50,7 +49,7 @@ router.post(
 );
 
 // List Categories
-router.get("/", listCategories);
+router.get("/:id", listCategories);
 
 // Edit Category Form
 router.get("/edit/:id", editCategoryForm);
@@ -68,6 +67,6 @@ router.put(
 
 // Delete Category
 router.delete("/delete/:id", deleteCategory);
-router.get("/:id", listSubCategories);
+// router.get("/:id", listSubCategories);
 
 export default router;
