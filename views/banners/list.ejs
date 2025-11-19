@@ -1,0 +1,88 @@
+
+<div class="container-fluid mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h3 class="fw-bold">Manage Banner</h3>
+    <a href="/banners/add" class="btn btn-primary">
+      <i class="bi bi-plus-lg"></i> Add New Banner
+    </a>
+  </div>
+
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover align-middle">
+          <thead class="table-light">
+            <tr>
+              <th>#</th>
+              <th>Title</th>
+              <th>Banner</th>
+              <th>Mobile Banner</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if (banners.length === 0) { %>
+              <tr>
+                <td colspan="7" class="text-center text-muted py-3">
+                  No Banner found.
+                </td>
+              </tr>
+            <% } else { %>
+              <% banners.forEach((banner, index) => { %>
+                <tr>
+                  <td><%= index + 1 %></td>
+                    
+                  <td>  <strong><%= banner.banner_title %></strong> </td>
+                  <td style="width:100px;">
+                    <% if (banner.desktop_banner) { %>
+                      <img src="<%= banner.desktop_banner %>" class="img-thumbnail" alt="banner" style="max-width: 80px;">
+                    <% } else { %>
+                      <span class="text-muted">No Image</span>
+                    <% } %>
+                  </td>
+                  <!-- mobile Banner -->
+                  <td style="width:100px;">
+                    <% if (banner.mobile_banner) { %>
+                      <img src="<%= banner.mobile_banner %>" class="img-thumbnail" alt="banner" style="max-width: 80px;">
+                    <% } else { %>
+                      <span class="text-muted">No Image</span>
+                    <% } %>
+                  </td>
+                 
+                 <td>
+  <div class="form-check form-switch">
+    <input 
+      class="form-check-input toggle-status" 
+      type="checkbox" 
+      data-id="<%= banner._id %>" 
+      <%= banner.status === 'Y' ? 'checked' : '' %>>
+    <label class="form-check-label">
+      <%= banner.status === 'Y' ? 'Active' : 'Inactive' %>
+    </label>
+  </div>
+</td>
+
+
+                  <td style="width:150px;">
+                    <div class="d-flex gap-2">
+                      <a href="banners/edit/<%= product._id %>" class="btn btn-sm btn-warning">
+                        <i class="bi bi-pencil"></i> Edit
+                      </a>
+                      <form action="/banners/delete/<%= product._id %>?_method=DELETE" method="POST" onsubmit="return confirm('Delete this banner?')">
+                        <button type="submit" class="btn btn-sm btn-danger">
+                          <i class="bi bi-trash"></i> Delete
+                        </button>
+                      </form>
+                    </div>
+                  </td>
+                </tr>
+              <% }) %>
+            <% } %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+

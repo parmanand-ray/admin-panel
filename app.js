@@ -7,6 +7,8 @@ import bodyParser from "body-parser";
 import methodOverride from "method-override";
 import categoryRoutes from "./routes/categories.js";
 import productsRoutes from "./routes/product.js";
+import dashboardRoutes from "./routes/dashboard.js";
+import bannersRoutes from "./routes/banner.js"
 import 'dotenv/config'
 
 const app = express();
@@ -36,6 +38,7 @@ app.set("layout", "layout");
 // Routes
 app.use("/categories", categoryRoutes);
 app.use("/products", productsRoutes);
-
+app.use("/banners", bannersRoutes);
+app.use("/", dashboardRoutes);
 // Start server
 app.listen(3000, () => console.log("🚀 Server running on http://localhost:3000"));

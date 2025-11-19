@@ -16,7 +16,7 @@ export const createCategory = async (req, res) => {
     const {
       catName,
       displayName,
-      slug,     
+      slug,
       pageTitle,
       pageKeywords,
       pageDescription,
@@ -28,8 +28,6 @@ export const createCategory = async (req, res) => {
       catDesc1,
       catDesc2,
     } = req.body;
-
-    
 
     // Handle uploaded images (via multer)
     let images = {};
@@ -52,10 +50,10 @@ export const createCategory = async (req, res) => {
       catName,
       displayName,
       description: {
-      catDesc,
-      catDesc1,
-      catDesc2,
-     },
+        catDesc,
+        catDesc1,
+        catDesc2,
+      },
       slug,
       parentId: parentId || null,
       order: nextOrder,
@@ -64,9 +62,9 @@ export const createCategory = async (req, res) => {
         pageTitle,
         pageKeywords,
         pageDescription,
-         keyone,
-         keytwo,
-         keythree,
+        keyone,
+        keytwo,
+        keythree,
       },
     };
 
@@ -89,63 +87,69 @@ export const editCategoryForm = async (req, res) => {
 
 export const updateCategory = async (req, res) => {
   const {
-      catName,
-      displayName,
-      slug,     
+    catName,
+    displayName,
+    slug,
+    pageTitle,
+    pageKeywords,
+    pageDescription,
+    keyone,
+    keytwo,
+    keythree,
+    catDesc,
+    catDesc1,
+    catDesc2,
+  } = req.body;
+
+  let images = {};
+  if (req.files) {
+    if (req.files.catImage && req.files.catImage[0]) {
+      images.catImage = `/uploads/category/${req.files.catImage[0].filename}`;
+    }
+    if (req.files.cat_home_image && req.files.cat_home_image[0]) {
+      images.cat_home_image = `/uploads/category/${req.files.cat_home_image[0].filename}`;
+    }
+    if (req.files.catBanner && req.files.catBanner[0]) {
+      images.catBanner = `/uploads/category/${req.files.catBanner[0].filename}`;
+    }
+  }
+
+  await Category.findByIdAndUpdate(req.params.id, {
+    catName,
+    displayName,
+    description: {
+      catDesc,
+      catDesc1,
+      catDesc2,
+    },
+    slug,
+    images,
+    meta: {
       pageTitle,
       pageKeywords,
       pageDescription,
       keyone,
       keytwo,
       keythree,
-      catDesc,
-      catDesc1,
-      catDesc2,
-    } = req.body;
-
-  let images = {};
-    if (req.files) {
-      if (req.files.catImage && req.files.catImage[0]) {
-        images.catImage = `/uploads/category/${req.files.catImage[0].filename}`;
-      }
-      if (req.files.cat_home_image && req.files.cat_home_image[0]) {
-        images.cat_home_image = `/uploads/category/${req.files.cat_home_image[0].filename}`;
-      }
-      if (req.files.catBanner && req.files.catBanner[0]) {
-        images.catBanner = `/uploads/category/${req.files.catBanner[0].filename}`;
-      }
-    };
-
-  await Category.findByIdAndUpdate(req.params.id, {
-     catName,
-      displayName,
-      description: {
-      catDesc,
-      catDesc1,
-      catDesc2,
-     },
-      slug,
-      images,
-      meta: {
-        pageTitle,
-        pageKeywords,
-        pageDescription,
-         keyone,
-         keytwo,
-         keythree
-      }
+    },
   });
 
   res.redirect("/categories");
 };
 
 export const deleteCategory = async (req, res) => {
-
   let category = Category.findById(req.params.id);
-
-
-  
 
   await Category.findByIdAndDelete(req.params.id);
   res.redirect("/categories");
+};
+
+export const listSubCategories = async (req, res) => {
+  const { id } = req.params;
+
+  const categories = await Category.find({ parentId: id })
+    .sort({ createdAt: -1 })
+    .lean();
+
+  res.render("categories/list", { categories });
 };

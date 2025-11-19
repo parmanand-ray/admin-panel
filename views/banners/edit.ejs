@@ -1,0 +1,46 @@
+<h3 class="text-center mb-4">Add New Banner</h3>
+
+<form action="/categories/edit/" method="POST" enctype="multipart/form-data">
+<div class="row">
+    <div class="col-md-6 mb-3">
+      <label class="form-label">Banner Title *</label>
+      <input
+        type="text"
+        class="form-control"
+        name="banner_title"
+        required
+        placeholder="Enter banner title"
+      />
+    </div>
+  </div>
+  <!-- IMAGES -->
+  <div class="section-title">Images</div>
+
+  <div class="row">
+   
+    <div class="col-md-4 mb-3">
+      <label class="form-label">Banner</label>
+      <input
+        type="file"
+        class="form-control"
+        name="desktop_banner"
+        accept="image/*"
+      />
+    </div>
+    <div class="col-md-4 mb-3">
+      <label class="form-label">Mobile Banner </label>
+      <input
+        type="file"
+        class="form-control"
+        name="mobile_banner"
+        accept="image/*"
+      />
+    </div>
+  </div>
+
+
+  <div class="d-flex justify-content-between mt-4">
+    <a href="/banners" class="btn btn-outline-secondary">← Back</a>
+    <button type="submit" class="btn btn-primary px-4">Save Banner</button>
+  </div>
+</form>

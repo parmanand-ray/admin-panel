@@ -9,6 +9,7 @@ import {
   editCategoryForm,
   updateCategory,
   deleteCategory,
+  listSubCategories,
 } from "../controllers/categoryController.js";
 
 const router = express.Router();
@@ -67,5 +68,6 @@ router.put(
 
 // Delete Category
 router.delete("/delete/:id", deleteCategory);
+router.get("/:id", listSubCategories);
 
 export default router;
