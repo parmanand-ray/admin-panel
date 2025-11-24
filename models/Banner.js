@@ -4,6 +4,7 @@ const bannerSchema = new mongoose.Schema({
     banner_title : String,
     mobile_banner: String,
     desktop_banner:String,
+    order : Number,
     status : {
         type : String,
         enum : ['Y','N'],

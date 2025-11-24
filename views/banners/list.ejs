@@ -66,10 +66,10 @@
 
                   <td style="width:150px;">
                     <div class="d-flex gap-2">
-                      <a href="banners/edit/<%= product._id %>" class="btn btn-sm btn-warning">
+                      <a href="banners/edit/<%= banner._id %>" class="btn btn-sm btn-warning">
                         <i class="bi bi-pencil"></i> Edit
                       </a>
-                      <form action="/banners/delete/<%= product._id %>?_method=DELETE" method="POST" onsubmit="return confirm('Delete this banner?')">
+                      <form action="/banners/delete/<%= banner._id %>?_method=DELETE" method="POST" onsubmit="return confirm('Delete this banner?')">
                         <button type="submit" class="btn btn-sm btn-danger">
                           <i class="bi bi-trash"></i> Delete
                         </button>

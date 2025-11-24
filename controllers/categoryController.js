@@ -164,12 +164,3 @@ export const deleteCategory = async (req, res) => {
   res.redirect("/categories");
 };
 
-export const listSubCategories = async (req, res) => {
-  const { id } = req.params;
-
-  const categories = await Category.find({ parentId: id })
-    .sort({ createdAt: -1 })
-    .lean();
-
-  res.render("categories/list", { categories });
-};
